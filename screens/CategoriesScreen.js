@@ -4,19 +4,31 @@ import { CATEGORIES } from "../data/dummy-data";
 
 import CategoryGridTile from "../components/CategoryGridTile";
 
-// (HELPER FUNCTION) render out every category item
-// Multiple threads can handle same function at the same time
-function renderCategoryItem(itemData) {
-  return (
-    // pass the title and color of the category to the CategoryGridTile component
-    // itemData.item is the item in the array
-    // pass in color by itemData.item.color is the color of the category
-    // pass in title itemData.item.title is the title of the category
-    <CategoryGridTile title={itemData.item.title} color={itemData.item.color} />
-  );
-}
+function CategoriesScreen({ navigation }) {
+  // (HELPER FUNCTION) render out every category item
+  // Multiple threads can handle same function at the same time
 
-function CategoriesScreen() {
+  function renderCategoryItem(itemData) {
+    // Handler for when a category is pressed
+    function pressHandler() {
+      // navigate to the MealsOverview screen
+      navigation.navigate("MealsOverview", {
+        categoryId: itemData.item.id,
+      });
+    }
+    return (
+      // pass the title and color of the category to the CategoryGridTile component
+      // itemData.item is the item in the array
+      // pass in color by itemData.item.color is the color of the category
+      // pass in title itemData.item.title is the title of the category
+      <CategoryGridTile
+        title={itemData.item.title}
+        color={itemData.item.color}
+        onPress={pressHandler}
+      />
+    );
+  }
+
   return (
     // render a list of categories using FlatList (which is a ScrollView with better performance)
     // data is the array of items to render so must use itemData.item to access the item
